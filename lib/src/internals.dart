@@ -32,18 +32,19 @@ class Parser {
   var _stack = [];
   var _events;
   BuildContext _context;
+  TextStyle _style;
   Function _linksCallback;
 
-  Parser(BuildContext context, String data, {Function linksCallback}) {
+  Parser(BuildContext context, String data, TextStyle style, {Function linksCallback}) {
     _events = xmle.parseEvents(data);
     _context = context;
+    _style = style;
     if (linksCallback != null) _linksCallback = linksCallback;
   }
 
   TextSpan _getTextSpan(text, style) {
     var rules = style.split(";").where((item) => !item.trim().isEmpty);
-    TextStyle textStyle = DefaultTextStyle.of(_context).style;
-    textStyle = textStyle.apply(color: Color(0xff000000));
+    TextStyle textStyle = _style;
     var isLink = false;
     var link = "";
     rules.forEach((String rule) {
